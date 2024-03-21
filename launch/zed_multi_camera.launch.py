@@ -45,8 +45,8 @@ def launch_setup(context, *args, **kwargs):
     
     # URDF/xacro file to be loaded by the Robot State Publisher node
     multi_zed_xacro_path = os.path.join(
-    get_package_share_directory('zed_multi_camera'),
-    'urdf',
+    get_package_share_directory('dogtooth_pltf_description'),
+    'description',
     'zed_multi.urdf.xacro')
 
     robot_description = Command(['xacro', ' ', multi_zed_xacro_path]).perform(context)
