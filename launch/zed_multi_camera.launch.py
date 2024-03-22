@@ -109,7 +109,7 @@ def launch_setup(context, *args, **kwargs):
         publish_tf = 'false'
         if (cam_idx == 0):
             if (disable_tf_val == 'False' or disable_tf_val == 'false'):
-                publish_tf = 'true'
+                publish_tf = 'false'
 
         # A different node name is required by the Diagnostic Updated
         node_name = 'zed_node_' + str(cam_idx)
