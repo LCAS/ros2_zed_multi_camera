@@ -68,12 +68,12 @@ def launch_setup(context, *args, **kwargs):
     names = LaunchConfiguration('cam_names')
     models = LaunchConfiguration('cam_models')
     serials = LaunchConfiguration('cam_serials')
-    disable_tf = LaunchConfiguration('disable_tf')
+    disable_tf = LaunchConfiguration('disable_tfs')
 
     names_arr = parse_array_param(names.perform(context))
     models_arr = parse_array_param(models.perform(context))
     serials_arr = parse_array_param(serials.perform(context))
-    disable_tf_val = disable_tf.perform(context)
+    disable_tf_val_arr = parse_array_param(disable_tf.perform(context))
 
     num_cams = len(names_arr)
 
@@ -88,6 +88,12 @@ def launch_setup(context, *args, **kwargs):
             LogInfo(msg=TextSubstitution(
                 text='The size of the `serials` param array must be equal to the size of `names`'))
         ]
+    
+    if (num_cams != len(disable_tf_val_arr)):
+        return [
+            LogInfo(msg=TextSubstitution(
+                text='The size of the `disable_tf` param array must be equal to the size of `names`'))
+        ]
 
     # Add the robot_state_publisher node to the list of nodes to be started
     actions = [multi_rsp_node]
@@ -98,6 +104,7 @@ def launch_setup(context, *args, **kwargs):
     for name in names_arr:
         model = models_arr[cam_idx]
         serial = serials_arr[cam_idx]
+        publish_tf = disable_tf_val_arr[cam_idx]
         pose = '['
 
         info = '* Starting a ZED ROS2 node for camera ' + name + \
@@ -106,10 +113,9 @@ def launch_setup(context, *args, **kwargs):
         actions.append(LogInfo(msg=TextSubstitution(text=info)))
 
         # Only the first camera send odom and map TF
-        publish_tf = 'false'
-        if (cam_idx == 0):
-            if (disable_tf_val == 'False' or disable_tf_val == 'false'):
-                publish_tf = 'false'
+        # if (cam_idx == 0):
+        #     if (disable_tf_val == 'False' or disable_tf_val == 'false'):
+        #         publish_tf = 'true'
 
         # A different node name is required by the Diagnostic Updated
         node_name = 'zed_node_' + str(cam_idx)
