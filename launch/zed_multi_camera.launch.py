@@ -68,12 +68,12 @@ def launch_setup(context, *args, **kwargs):
     names = LaunchConfiguration('cam_names')
     models = LaunchConfiguration('cam_models')
     serials = LaunchConfiguration('cam_serials')
-    disable_tf = LaunchConfiguration('disable_tfs')
+    publish_tfs = LaunchConfiguration('publish_tfs')
 
     names_arr = parse_array_param(names.perform(context))
     models_arr = parse_array_param(models.perform(context))
     serials_arr = parse_array_param(serials.perform(context))
-    disable_tf_val_arr = parse_array_param(disable_tf.perform(context))
+    disable_tf_val_arr = parse_array_param(publish_tfs.perform(context))
 
     num_cams = len(names_arr)
 
