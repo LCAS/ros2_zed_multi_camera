@@ -43,9 +43,12 @@ def parse_array_param(param):
 
 def launch_setup(context, *args, **kwargs):
     
+    ROBOT_MODEL = os.environ['ROBOT_MODEL']
+    
     # URDF/xacro file to be loaded by the Robot State Publisher node
+    robot_pltf_descriptoin = ROBOT_MODEL + '_pltf_description'
     multi_zed_xacro_path = os.path.join(
-    get_package_share_directory('dogtooth_pltf_description'),
+    get_package_share_directory(robot_pltf_descriptoin),
     'description',
     'zed_multi.urdf.xacro')
 
